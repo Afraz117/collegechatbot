@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: campusconnect-backend
+    env: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt && python init_db.py
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: DATABASE_URL
+        value: sqlite:////data/college_admission.db
+      - key: VECTORSTORE_PATH
+        value: /data/vectorstore/faiss_index
+      - key: KNOWLEDGE_BASE_DIR
+        value: /data/knowledge_base
+      - key: WATSONX_URL
+        value: https://us-south.ml.cloud.ibm.com
+      - key: WATSONX_MODEL_ID
+        value: ibm/granite-3-8b-instruct
+      - key: EMBEDDING_MODEL_NAME
+        value: all-MiniLM-L6-v2
+    disk:
+      name: campusconnect-data
+      mountPath: /data
+      sizeGB: 1
