@@ -1,0 +1,35 @@
+# Python Virtual Environment
+venv/
+backend/venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Node.js
+node_modules/
+frontend/node_modules/
+.next/
+frontend/.next/
+out/
+frontend/out/
+
+# Vector Store and Databases
+vectorstore/
+*.db
+
+# Environment Variables
+.env
+backend/.env
+frontend/.env
+*.local
+
+# Knowledge base uploaded files
+knowledge_base/*
+!knowledge_base/.gitkeep
+
+# IDEs and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
