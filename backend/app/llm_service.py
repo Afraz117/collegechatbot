@@ -28,6 +28,7 @@ class LLMService:
                     model_id=self.model_id,
                     url=self.url,
                     project_id=self.project_id,
+                    apikey=self.api_key,
                     params={
                         "decoding_method": "greedy",
                         "max_new_tokens": 512,
