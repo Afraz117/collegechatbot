@@ -7,13 +7,18 @@ from .database import settings
 
 class VectorStoreManager:
     def __init__(self):
-        print(f"Initializing local embeddings model: {settings.EMBEDDING_MODEL_NAME}...")
-        self.embeddings = HuggingFaceEmbeddings(
-            model_name=settings.EMBEDDING_MODEL_NAME,
-            model_kwargs={'device': 'cpu'}
-        )
+        self.embeddings = None
         self.vectorstore_path = settings.VECTORSTORE_PATH
         self.index_name = "index"
+
+    def _get_embeddings(self):
+        if self.embeddings is None:
+            print(f"Initializing local embeddings model: {settings.EMBEDDING_MODEL_NAME}...")
+            self.embeddings = HuggingFaceEmbeddings(
+                model_name=settings.EMBEDDING_MODEL_NAME,
+                model_kwargs={'device': 'cpu'}
+            )
+        return self.embeddings
 
     def load_vectorstore(self) -> Optional[FAISS]:
         index_file = os.path.join(self.vectorstore_path, f"{self.index_name}.faiss")
@@ -24,7 +29,7 @@ class VectorStoreManager:
             # Allow dangerous deserialization because it's locally generated index
             return FAISS.load_local(
                 folder_path=self.vectorstore_path,
-                embeddings=self.embeddings,
+                embeddings=self._get_embeddings(),
                 index_name=self.index_name,
                 allow_dangerous_deserialization=True
             )
@@ -44,7 +49,7 @@ class VectorStoreManager:
             if vectorstore is None:
                 # Create a new FAISS index from the first batch of documents
                 print("Creating new FAISS vector store...")
-                vectorstore = FAISS.from_documents(documents, self.embeddings)
+                vectorstore = FAISS.from_documents(documents, self._get_embeddings())
             else:
                 # Add to existing index
                 print(f"Adding {len(documents)} chunks to existing FAISS vector store...")
