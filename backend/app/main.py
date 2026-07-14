@@ -33,6 +33,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.get("/")
+def read_root():
+    return {
+        "status": "online",
+        "project": "CampusConnect AI - Intelligent Admission Agent API",
+        "version": "1.0.0",
+        "documentation": "/docs"
+    }
+
 # Instantiate services
 llm_service = LLMService()
 doc_parser = DocumentParser()
