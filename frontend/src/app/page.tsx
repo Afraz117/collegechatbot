@@ -27,8 +27,8 @@ import {
   Plus
 } from "lucide-react";
 
-// Configuration for API URL. Will point to the local FastAPI dev server.
-const API_BASE_URL = "http://localhost:8000";
+// Configuration for API URL. Points to the live Render backend.
+const API_BASE_URL = "https://collegechatbot-3-o5ps.onrender.com";
 
 // Define Interfaces
 interface Message {
