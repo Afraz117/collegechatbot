@@ -4,15 +4,18 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from pydantic_settings import BaseSettings
 
+# Resolve the absolute path of the backend directory
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 class Settings(BaseSettings):
-    DATABASE_URL: str = "sqlite:///./college_admission.db"
+    DATABASE_URL: str = f"sqlite:///{os.path.join(BASE_DIR, 'college_admission.db')}"
     WATSONX_API_KEY: str = ""
     WATSONX_PROJECT_ID: str = ""
     WATSONX_URL: str = "https://us-south.ml.cloud.ibm.com"
     WATSONX_MODEL_ID: str = "ibm/granite-3-8b-instruct"
     EMBEDDING_MODEL_NAME: str = "all-MiniLM-L6-v2"
-    VECTORSTORE_PATH: str = "../vectorstore/faiss_index"
-    KNOWLEDGE_BASE_DIR: str = "../knowledge_base"
+    VECTORSTORE_PATH: str = os.path.join(BASE_DIR, "vectorstore", "faiss_index")
+    KNOWLEDGE_BASE_DIR: str = os.path.join(BASE_DIR, "knowledge_base")
 
     class Config:
         env_file = ".env"
