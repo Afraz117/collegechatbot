@@ -22,3 +22,9 @@ services:
       name: campusconnect-data
       mountPath: /data
       sizeGB: 1
+
+  - type: static
+    name: campusconnect-frontend
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    publishPath: out
